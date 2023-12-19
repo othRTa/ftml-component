@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test</title>
+    <script type="module">
+        const worker = new Worker('ftml-worker.js', { type: 'module' });
+
+        worker.onmessage = (e) => {
+            // Worker からのメッセージを処理
+            const { html, styles } = e.data;
+            console.log(html, styles);
+        };
+
+        // Worker に FTML データを送信
+        worker.postMessage({ value: 'ここにFTMLデータ' });
+    </script>
+</head>
+
+<body>
+    <h1>Test</h1>
+    <div id="wikitext-output"></div>
+</body>
+
+</html>
