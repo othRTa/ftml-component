@@ -10,6 +10,7 @@
             // Worker からのメッセージを処理
             const { html, styles } = e.data;
             console.log(html, styles);
+            document.getElementById('wikitext-output').innerHTML = html;
         };
 
         // Worker に FTML データを送信
