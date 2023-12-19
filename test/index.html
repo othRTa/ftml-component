@@ -4,22 +4,27 @@
 <head>
     <title>Test</title>
     <script type="module">
-        const worker = new Worker('ftml-worker.js', { type: 'module' });
+        document.addEventListener('DOMContentLoaded', () => {
+            const worker = new Worker('ftml-worker.js', { type: 'module' });
+            const textarea = document.getElementById('wikitext-input');
+            const output = document.getElementById('wikitext-output');
 
-        worker.onmessage = (e) => {
-            // Worker からのメッセージを処理
-            const { html, styles } = e.data;
-            console.log(html, styles);
-            document.getElementById('wikitext-output').innerHTML = html;
-        };
+            worker.onmessage = (e) => {
+                const { html, styles } = e.data;
+                output.innerHTML = html;
+            };
 
-        // Worker に FTML データを送信
-        worker.postMessage({ value: 'ここにFTMLデータ' });
+            textarea.addEventListener('input', () => {
+                const text = textarea.value;
+                worker.postMessage({ value: text });
+            });
+        });
     </script>
 </head>
 
 <body>
-    <h1>Test</h1>
+    <h1>test</h1>
+    <textarea id="wikitext-input" rows="10" cols="50"></textarea>
     <div id="wikitext-output"></div>
 </body>
 
